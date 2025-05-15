@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MSGED - Jahangirnagar University</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --dark-blue: #003366;
+        --notice-blue: #e3f2fd;
+        --dark-orange: #ff9a44;
+        --dark: #343a40;
+      }
+
+      body {
+        font-family: "Segoe UI", system-ui, sans-serif;
+        padding-top: 120px; /* To account for fixed navbar */
+      }
+
+      .top-bar {
+        font-size: 0.9rem;
+        background: var(--notice-blue);
+        color: var(--dark);
+        padding: 8px 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1030;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .top-bar a {
+        color: var(--dark-blue);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .top-bar a:hover {
+        color: var(--dark-blue);
+      }
+
+      .navbar {
+        background: white;
+        padding: 0.5rem 0;
+        position: fixed;
+        top: 40px; /* Height of top bar */
+        width: 100%;
+        z-index: 1040;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .navbar.scrolled {
+        top: 0;
+      }
+
+      .navbar-brand {
+        font-weight: 600;
+        color: var(--dark-blue);
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar-brand img {
+        height: 50px;
+        width: auto;
+        margin-right: 12px;
+      }
+
+      .navbar-brand .program-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      .navbar-brand .dept-name {
+        font-size: 0.8rem;
+        color: var(--dark);
+        opacity: 0.8;
+      }
+
+      .navbar-nav .nav-link {
+        color: var(--dark-blue);
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        margin: 0 0.2rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: var(--dark-blue);
+        background: rgba(0, 51, 102, 0.05);
+      }
+
+      .login-btn {
+        background: var(--dark-blue);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        margin-left: 0.5rem;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+      }
+
+      .login-btn:hover {
+        background: #e68a3e;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(255, 154, 68, 0.3);
+      }
+
+      .navbar-toggler {
+        border: none;
+        padding: 0.5rem;
+      }
+
+      .navbar-toggler:focus {
+        box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.2);
+      }
+
+      /* Mobile menu styles */
+      @media (max-width: 991.98px) {
+        body {
+          padding-top: 100px;
+        }
+
+        .navbar {
+          top: 60px;
+        }
+
+        .navbar-brand {
+          font-weight: 600;
+          color: var(--dark-blue);
+          display: flex;
+          align-items: center;
+        }
+
+        .navbar-brand img {
+          height: 40px;
+          margin-right: 8px;
+        }
+
+        .navbar-brand .program-name {
+          font-size: 0.8rem;
+        }
+
+        .navbar-brand .dept-name {
+          font-size: 0.7rem;
+        }
+
+        .navbar-collapse {
+          background: white;
+          padding: 1rem;
+          margin-top: 10px;
+          border-radius: 8px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-nav {
+          padding-top: 1rem;
+        }
+
+        .nav-item {
+          margin-bottom: 0.5rem;
+        }
+
+        .login-btn {
+          margin-left: 0;
+          margin-top: 0.5rem;
+          display: inline-block;
+        }
+      }
+
+      /* ===========================notice section==================  */
+
+      .notice-section {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .notice-header {
+        background: linear-gradient(to right, #3a7bd5, #00d2ff);
+        color: white;
+        padding: 15px;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+      }
+
+      .fixed-notice {
+        background-color: white;
+        border-left: 5px solid #3a7bd5;
+        transition: all 0.3s ease;
+      }
+
+      .fixed-notice:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .scrollable-notices {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 10px;
+      }
+
+      .scrollable-notices::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .scrollable-notices::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+
+      .scrollable-notices::-webkit-scrollbar-thumb {
+        background: #3a7bd5;
+        border-radius: 10px;
+      }
+
+      .notice-item {
+        background-color: white;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        padding: 15px;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+      }
+
+      .notice-item:hover {
+        transform: translateX(5px);
+        border-left: 3px solid #00d2ff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .notice-date {
+        font-size: 0.8rem;
+        color: #6c757d;
+      }
+
+      .pdf-viewer-container iframe {
+        height: 600px;
+      }
+
+      .pdf-viewer-container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        height: 500px;
+      }
+
+      .pdf-header {
+        background: linear-gradient(to right, #3a7bd5, #00d2ff);
+        color: white;
+        padding: 10px 15px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      .badge-important {
+        background-color: #ff4757;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .notice-title {
+        font-weight: 600;
+        color: #343a40;
+      }
+
+      @media (max-width: 768px) {
+        .notice-header h3 {
+          font-size: 1.2rem;
+        }
+        .notice-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #343a40;
+        }
+
+        .pdf-viewer-container iframe {
+          height: 500px;
+        }
+
+        .pdf-header .pdf-title {
+          font-size: 1.2rem;
+        }
+
+        .pdf-header a.btn {
+          flex-shrink: 0;
+        }
+      }
+
+      /* ============ adminssion apply =============  */
+
+      .admission-card {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.03);
+        background-color: white;
+        overflow: hidden;
+        border: none;
+        border-top: 1px solid var(--dark-blue);
+      }
+
+      .admission-header {
+        background-color: var(--notice-blue);
+        padding: 30px;
+        text-align: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .admission-badge {
+        background-color: var(--dark-blue);
+        color: white;
+        font-weight: 600;
+        padding: 8px 20px;
+        border-radius: 50px;
+        display: inline-block;
+        margin-bottom: 15px;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        box-shadow: 0 3px 10px rgba(255, 154, 68, 0.3);
+      }
+
+      .stats-card {
+        background-color: white;
+        border-radius: 10px;
+        padding: 25px;
+        text-align: center;
+        margin-bottom: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .stats-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border-color: var(--notice-blue);
+      }
+
+      .stats-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+        color: var(--dark-blue);
+      }
+
+      .stats-label {
+        font-size: 0.9rem;
+        color: var(--dark);
+        opacity: 0.8;
+        letter-spacing: 0.3px;
+      }
+
+      .countdown-container {
+        background-color: var(--notice-blue);
+        border-radius: 10px;
+        padding: 30px;
+        margin: 30px 0;
+      }
+
+      .countdown-item {
+        display: inline-block;
+        margin: 0 10px;
+        text-align: center;
+      }
+
+      .countdown-number {
+        background-color: white;
+        color: var(--dark-blue);
+        padding: 15px;
+        border-radius: 8px;
+        min-width: 80px;
+        display: inline-block;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .countdown-label {
+        font-size: 0.8rem;
+        color: var(--dark);
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .apply-btn {
+        background-color: var(--dark-blue);
+        color: white;
+        border: none;
+        font-weight: 600;
+        padding: 12px 30px;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+      }
+
+      .apply-btn:hover {
+        background-color: #ff8a2b;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 154, 68, 0.3);
+        color: white;
+      }
+
+      .divider {
+        height: 1px;
+        background-color: rgba(0, 0, 0, 0.05);
+        margin: 25px 0;
+      }
+
+      @media (max-width: 768px) {
+        .countdown-number {
+          min-width: 60px;
+          font-size: 1.5rem;
+          padding: 10px;
+        }
+
+        .stats-number {
+          font-size: 2rem;
+        }
+
+        .admission-header {
+          padding: 20px;
+        }
+      }
+
+      /* =============== admission-process====  */
+
+      .timeline-section {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.03);
+        position: relative;
+        padding: 2rem 0;
+        padding-top: 0;
+        border-top: 1px solid var(--dark-blue);
+      }
+
+      .timeline-header {
+        background-color: var(--notice-blue);
+        position: relative;
+        padding-top: 1.5rem;
+        padding-bottom: 4rem;
+        text-align: center;
+      }
+
+      .timeline-header h2 {
+        font-weight: 800;
+        color: var(--dark-blue);
+        position: relative;
+        display: inline-block;
+      }
+
+      .timeline-header h2::after {
+        content: "";
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 5px;
+        background: var(--dark-blue);
+        border-radius: 3px;
+      }
+
+      .timeline-header p {
+        color: var(--dark);
+        opacity: 0.8;
+        max-width: 600px;
+        margin: 1rem auto 0;
+      }
+
+      .timeline {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 0;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        width: 6px;
+        background-color: var(--notice-blue);
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -3px;
+        border-radius: 10px;
+      }
+
+      .timeline-step {
+        padding: 10px 40px;
+        position: relative;
+        width: 50%;
+        margin-bottom: 3rem;
+      }
+
+      .timeline-step:nth-child(odd) {
+        left: 0;
+      }
+
+      .timeline-step:nth-child(even) {
+        left: 50%;
+      }
+
+      .timeline-content {
+        padding: 2rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        position: relative;
+        transition: all 0.3s ease;
+        border-left: 5px solid var(--dark-blue);
+      }
+
+      .timeline-step:nth-child(even) .timeline-content {
+        border-left: none;
+        border-right: 5px solid var(--dark-blue);
+      }
+
+      .timeline-content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      }
+
+      .step-number {
+        position: absolute;
+        height: 80px;
+        width: 80px;
+        background: var(--dark-blue);
+        color: white;
+        /* border-radius: 50%; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        font-weight: 800;
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+        right: -80px;
+        box-shadow: 0 5px 15px rgba(255, 154, 68, 0.4);
+      }
+
+      .step-number p {
+        transform: rotate(-45deg);
+        color: white !important;
+      }
+
+      .timeline-step:nth-child(even) .step-number {
+        /* left: -40px; */
+        left: -80px;
+        right: auto;
+      }
+
+      .step-icon {
+        font-size: 2.5rem;
+        color: var(--dark-blue);
+        margin-bottom: 1.5rem;
+      }
+
+      .timeline-content h4 {
+        color: var(--dark-blue);
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .timeline-content p {
+        color: var(--dark);
+        opacity: 0.9;
+        margin-bottom: 0;
+      }
+
+      @media screen and (max-width: 768px) {
+        .timeline::before {
+          left: 31px;
+        }
+
+        .timeline-step {
+          width: 100%;
+          padding-left: 70px;
+          padding-right: 25px;
+        }
+
+        .timeline-step:nth-child(even) {
+          left: 0;
+        }
+
+        .step-number {
+          width: 60px;
+          height: 60px;
+          font-size: 2rem;
+          /* left: -5px;
+          right: auto;
+          top: -20px; */
+          left: -74px;
+          right: auto;
+          top: 50%;
+          transform: translateY(-50%) rotate(45deg);
+        }
+
+        .timeline-step:nth-child(even) .step-number {
+          /* left: -5px; */
+          left: -69px;
+        }
+      }
+
+      /* =========== coordinator-section==============  */
+
+      .coordinator-wrapper {
+        /* max-width: 1000px; */
+        margin: 50px auto;
+        position: relative;
+      }
+
+      .message-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.03);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .profile-sidebar {
+        background: linear-gradient(135deg, var(--dark-blue), #004080);
+        padding: 40px 30px;
+        color: white;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .profile-sidebar::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -50px;
+        width: 100px;
+        height: 100%;
+        background: linear-gradient(135deg, var(--dark-blue), #004080);
+        transform: skewX(-15deg);
+        z-index: -1;
+        opacity: 0.3;
+      }
+
+      .profile-img {
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 5px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 25px;
+        transition: all 0.4s ease;
+      }
+
+      .profile-img:hover {
+        transform: scale(1.05);
+        border-color: var(--dark-blue);
+      }
+
+      .coordinator-title {
+        font-size: 1.1rem;
+        background: rgba(255, 255, 255, 0.15);
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 30px;
+        margin-bottom: 15px;
+        backdrop-filter: blur(5px);
+      }
+
+      .message-content {
+        padding: 40px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .message-header {
+        position: relative;
+        margin-bottom: 30px;
+      }
+
+      .message-header h3 {
+        color: var(--dark-blue);
+        font-weight: 700;
+        position: relative;
+        display: inline-block;
+      }
+
+      .message-header h3::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: var(--dark-blue);
+        border-radius: 2px;
+      }
+
+      .message-text p {
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      .message-text p::before {
+        content: "»";
+        position: absolute;
+        left: 0;
+        color: var(--dark-blue);
+        font-weight: bold;
+      }
+
+      .signature-block {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 2px dashed rgba(0, 51, 102, 0.1);
+      }
+
+      .university-badge {
+        display: inline-flex;
+        align-items: center;
+        background: var(--notice-blue);
+        padding: 8px 15px;
+        border-radius: 30px;
+        margin: 10px 5px;
+        color: var(--dark-blue);
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .university-badge:hover {
+        background: var(--dark-blue);
+        color: white;
+        transform: translateY(-3px);
+      }
+
+      .university-badge i {
+        margin-right: 8px;
+      }
+
+      @media (max-width: 992px) {
+        .profile-sidebar {
+          padding: 30px 20px;
+        }
+
+        .profile-sidebar::before {
+          display: none;
+        }
+
+        .message-content {
+          padding: 30px 20px;
+        }
+
+        .profile-img {
+          width: 140px;
+          height: 140px;
+        }
+      }
+
+      /* ========== footer -section============  */
+
+      .footer {
+        background: linear-gradient(135deg, var(--dark-blue), #002244);
+        color: white;
+        padding: 3rem 0 1rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--dark-orange);
+      }
+
+      .footer h5 {
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+      }
+
+      .footer h5::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--dark-orange);
+      }
+
+      .footer ul.menuLink li {
+        margin-bottom: 0.8rem;
+        position: relative;
+        padding-left: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .footer ul.menuLink li::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: var(--dark-orange);
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+
+      .footer ul.menuLink li:hover {
+        padding-left: 20px;
+      }
+
+      .footer ul.menuLink li:hover::before {
+        opacity: 1;
+      }
+
+      .footer a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .footer a:hover {
+        color: white;
+        text-decoration: underline;
+      }
+
+      .contact-info {
+        margin-top: 1.5rem;
+      }
+
+      .contact-info p {
+        margin-bottom: 0.5rem;
+      }
+
+      .contact-info i {
+        color: var(--dark-orange);
+        width: 25px;
+        text-align: center;
+        margin-right: 8px;
+      }
+
+      .divider {
+        border-color: rgba(255, 255, 255, 0.1) !important;
+        margin: 2rem 0;
+      }
+
+      .copyright {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .copyright a {
+        color: var(--dark-orange);
+        font-weight: 500;
+      }
+
+      .copyright a:hover {
+        text-decoration: none;
+        color: white;
+      }
+
+      .social-links {
+        margin-top: 1.5rem;
+      }
+
+      .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        margin-right: 10px;
+        color: white;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        background: var(--dark-orange);
+        transform: translateY(-3px);
+      }
+
+      .map-container {
+        height: 180px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 15px;
+      }
+
+      @media (max-width: 767.98px) {
+        .footer .col-sm-6 {
+          margin-bottom: 2.5rem;
+        }
+
+        .footer h5::after {
+          width: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Contact Bar -->
+    <div class="top-bar text-center text-md-end pe-md-4">
+      <div class="container">
+        <span class="me-3 d-block d-md-inline"
+          >📞 01779742858, 01749567525</span
+        >
+        <span
+          >✉️
+          <a href="mailto:admission@msged.edu.bd"
+            >admission@msged.edu.bd</a
+          ></span
+        >
+      </div>
+    </div>
+
+    <!-- Main Navbar -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img
+            src="https://www.msged.edu.bd/assets/img/logo.png"
+            alt="JU Logo"
+          />
+          <div>
+            <div class="program-name">
+              MS in GIS for Environment & Development
+            </div>
+            <div class="dept-name">Dept. of Geography & Environment, JU</div>
+          </div>
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Admission</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Lab</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Notice</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Links</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Alumni</a></li>
+            <li class="nav-item">
+              <a href="#" class="login-btn">Applicant Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+      <!-- ========= notice section ======  -->
+      <div class="container pt-5 pb-2 py-md-5">
+        <div class="row">
+          <div class="col-lg-5 mb-4 mb-lg-0">
+            <div class="notice-section">
+              <div
+                class="notice-header d-flex justify-content-between align-items-center"
+              >
+                <h3><i class="fas fa-bullhorn me-2"></i> University Notices</h3>
+                <span class="badge bg-light text-dark"
+                  ><i class="fas fa-bell me-1"></i> Latest Updates</span
+                >
+              </div>
+
+              <div class="p-3">
+                <!-- Fixed Notice -->
+                <div class="fixed-notice p-3 mb-4 rounded">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <span class="badge badge-important me-2">IMPORTANT</span>
+                      <span class="notice-date"
+                        ><i class="far fa-calendar-alt me-1"></i> May 15,
+                        2025</span
+                      >
+                    </div>
+                    <button
+                      class="btn btn-sm btn-outline-primary view-pdf"
+                      data-pdf="notice1.pdf"
+                    >
+                      <i class="far fa-eye me-1"></i> View
+                    </button>
+                  </div>
+                  <h5 class="notice-title mt-2">
+                    Semester Final Examination Schedule
+                  </h5>
+                  <p class="mb-0 text-muted">
+                    All departments must follow the schedule strictly
+                  </p>
+                </div>
+
+                <!-- Scrollable Notices -->
+                <h6 class="text-muted mb-3">
+                  <i class="fas fa-history me-2"></i> Previous Notices
+                </h6>
+                <div class="scrollable-notices">
+                  <div class="notice-item">
+                    <div
+                      class="d-flex justify-content-between align-items-start"
+                    >
+                      <div>
+                        <span class="notice-date"
+                          ><i class="far fa-calendar-alt me-1"></i> May 10,
+                          2025</span
+                        >
+                      </div>
+                      <button
+                        class="btn btn-sm btn-outline-primary view-pdf"
+                        data-pdf="notice2.pdf"
+                      >
+                        <i class="far fa-eye me-1"></i> View
+                      </button>
+                    </div>
+                    <h5 class="notice-title mt-2">
+                      Summer Vacation Announcement
+                    </h5>
+                    <p class="mb-0 text-muted">
+                      University will remain closed from June 1 to July 15
+                    </p>
+                  </div>
+
+                  <div class="notice-item">
+                    <div
+                      class="d-flex justify-content-between align-items-start"
+                    >
+                      <div>
+                        <span class="notice-date"
+                          ><i class="far fa-calendar-alt me-1"></i> May 5,
+                          2025</span
+                        >
+                      </div>
+                      <button
+                        class="btn btn-sm btn-outline-primary view-pdf"
+                        data-pdf="notice3.pdf"
+                      >
+                        <i class="far fa-eye me-1"></i> View
+                      </button>
+                    </div>
+                    <h5 class="notice-title mt-2">
+                      Scholarship Application Deadline Extended
+                    </h5>
+                    <p class="mb-0 text-muted">New deadline is May 25, 2025</p>
+                  </div>
+
+                  <div class="notice-item">
+                    <div
+                      class="d-flex justify-content-between align-items-start"
+                    >
+                      <div>
+                        <span class="notice-date"
+                          ><i class="far fa-calendar-alt me-1"></i> April 28,
+                          2025</span
+                        >
+                      </div>
+                      <button
+                        class="btn btn-sm btn-outline-primary view-pdf"
+                        data-pdf="notice4.pdf"
+                      >
+                        <i class="far fa-eye me-1"></i> View
+                      </button>
+                    </div>
+                    <h5 class="notice-title mt-2">Campus Recruitment Drive</h5>
+                    <p class="mb-0 text-muted">
+                      Tech companies visiting on June 10-12
+                    </p>
+                  </div>
+
+                  <div class="notice-item">
+                    <div
+                      class="d-flex justify-content-between align-items-start"
+                    >
+                      <div>
+                        <span class="notice-date"
+                          ><i class="far fa-calendar-alt me-1"></i> April 20,
+                          2025</span
+                        >
+                      </div>
+                      <button
+                        class="btn btn-sm btn-outline-primary view-pdf"
+                        data-pdf="notice5.pdf"
+                      >
+                        <i class="far fa-eye me-1"></i> View
+                      </button>
+                    </div>
+                    <h5 class="notice-title mt-2">Library Renovation Notice</h5>
+                    <p class="mb-0 text-muted">
+                      Main library will be closed until further notice
+                    </p>
+                  </div>
+
+                  <div class="notice-item">
+                    <div
+                      class="d-flex justify-content-between align-items-start"
+                    >
+                      <div>
+                        <span class="notice-date"
+                          ><i class="far fa-calendar-alt me-1"></i> April 15,
+                          2025</span
+                        >
+                      </div>
+                      <button
+                        class="btn btn-sm btn-outline-primary view-pdf"
+                        data-pdf="notice6.pdf"
+                      >
+                        <i class="far fa-eye me-1"></i> View
+                      </button>
+                    </div>
+                    <h5 class="notice-title mt-2">Sports Week Announcement</h5>
+                    <p class="mb-0 text-muted">
+                      Register by April 30 for various competitions
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="pdf-viewer-container" style="height: 100%">
+              <div
+                class="pdf-header d-flex justify-content-between align-items-center"
+              >
+                <h4 class="mb-0">
+                  <i class="far fa-file-pdf me-2"></i>
+                  <span id="pdf-title" class="pdf-title">Notice Preview</span>
+                </h4>
+                <a
+                  id="download-pdf"
+                  href="#"
+                  class="btn btn-sm btn-light"
+                  download
+                >
+                  <i class="fas fa-download me-1"></i> Download
+                </a>
+              </div>
+              <div class="p-3">
+                <div
+                  class="d-flex justify-content-center align-items-center bg-light rounded"
+                  style="height: 100%"
+                >
+                  <div class="text-center" id="pdf-placeholder">
+                    <i class="far fa-file-pdf display-1 text-muted mb-3"></i>
+                    <h5 class="text-muted">Select a notice to view PDF</h5>
+                    <p class="text-muted">
+                      Click on any notice from the list to display its content
+                      here
+                    </p>
+                  </div>
+                  <iframe
+                    id="pdf-viewer"
+                    src=""
+                    style="width: 100%; display: none"
+                    frameborder="0"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ================= apply section =============  -->
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-12">
+            <div class="admission-card">
+              <div class="admission-header">
+                <span class="admission-badge"
+                  ><i class="fas fa-bell me-2"></i> Admissions Open</span
+                >
+                <h2 class="mb-3" style="color: var(--dark-blue)">
+                  Fall 2025 Applications
+                </h2>
+                <p class="mb-0" style="color: var(--dark); opacity: 0.8">
+                  Limited seats available for our prestigious programs
+                </p>
+              </div>
+
+              <div class="p-4">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="stats-card">
+                      <div class="stats-number">2,450+</div>
+                      <div class="stats-label">Applications</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="stats-card">
+                      <div class="stats-number">85%</div>
+                      <div class="stats-label">Acceptance Rate</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="stats-card">
+                      <div class="stats-number">120+</div>
+                      <div class="stats-label">Countries</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="countdown-container text-center">
+                  <h5 class="mb-4" style="color: var(--dark-blue)">
+                    <i class="far fa-clock me-2"></i> Application Deadline
+                  </h5>
+
+                  <div class="mb-4">
+                    <div class="countdown-item">
+                      <div class="countdown-number" id="days">00</div>
+                      <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                      <div class="countdown-number" id="hours">00</div>
+                      <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                      <div class="countdown-number" id="minutes">00</div>
+                      <div class="countdown-label">Minutes</div>
+                    </div>
+                  </div>
+
+                  <button class="btn apply-btn btn-lg">
+                    <i class="fas fa-paper-plane me-2"></i> Apply Now
+                  </button>
+                  <p
+                    class="mt-3 mb-0 small"
+                    style="color: var(--dark); opacity: 0.7"
+                  >
+                    Deadline: June 30, 2025
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- =========== admission-process-section==========  -->
+      <section class="timeline-section">
+        <div class="timeline-header">
+          <h2>Application Process</h2>
+          <p>
+            Follow these sequential steps to complete your admission process
+          </p>
+        </div>
+        <div class="container">
+          <div class="timeline">
+            <!-- Step 1 -->
+            <div class="timeline-step">
+              <div class="timeline-content">
+                <div class="step-number"><p>1</p></div>
+                <div class="step-icon">
+                  <i class="bi bi-card-checklist"></i>
+                </div>
+                <h4>Application Form</h4>
+                <p>
+                  Complete the online application form with your personal and
+                  academic details. Ensure all information is accurate before
+                  submission.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="timeline-step">
+              <div class="timeline-content">
+                <div class="step-number"><p>2</p></div>
+                <div class="step-icon">
+                  <i class="bi bi-cash-stack"></i>
+                </div>
+                <h4>Application Fee</h4>
+                <p>
+                  Pay the non-refundable application fee through our secure
+                  online payment gateway. Save the payment receipt for future
+                  reference.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="timeline-step">
+              <div class="timeline-content">
+                <div class="step-number"><p>3</p></div>
+                <div class="step-icon">
+                  <i class="bi bi-person-bounding-box"></i>
+                </div>
+                <h4>Admit Card</h4>
+                <p>
+                  Download your admit card from the applicant portal once your
+                  payment is verified. Print it for the admission test.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="timeline-step">
+              <div class="timeline-content">
+                <div class="step-number"><p>4</p></div>
+                <div class="step-icon">
+                  <i class="bi bi-pencil-square"></i>
+                </div>
+                <h4>Exam Preparation</h4>
+                <p>
+                  Prepare for the admission test using our recommended study
+                  materials and syllabus guidelines available on the website.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================== coordinator-section ============ -->
+      <div class="container coordinator-wrapper">
+        <div class="row g-0 message-container">
+          <!-- Profile Sidebar -->
+          <div class="col-lg-4 profile-sidebar">
+            <img src="fahad.jpeg" alt="Coordinator Photo" class="profile-img" />
+            <div class="coordinator-title">
+              <i class="bi bi-chat-square-quote"></i> Coordinator's Message
+            </div>
+            <h4 class="mb-1">Prof. Ubaydur R. Siddiki</h4>
+            <p class="mb-3">PhD (Australia)</p>
+
+            <div class="d-flex flex-column align-items-center">
+              <a href="#" class="university-badge">
+                <i class="bi bi-geo-alt"></i> Department
+              </a>
+              <a href="#" class="university-badge mt-2">
+                <i class="bi bi-building"></i> University
+              </a>
+            </div>
+          </div>
+
+          <!-- Message Content -->
+          <div class="col-lg-8 message-content">
+            <div class="message-header">
+              <h3>Welcome to MSGED Program</h3>
+            </div>
+
+            <div class="message-text">
+              <p>
+                It gives me immense pleasure to welcome you to the Master of
+                Science in GIS for Environment and Development (MSGED) Program
+                at Jahangirnagar University. As the pioneer professional
+                master's program in Bangladesh integrating geospatial
+                technologies with environmental and developmental studies, we
+                offer a unique interdisciplinary learning experience.
+              </p>
+
+              <p>
+                Our curriculum is carefully designed to bridge the gap between
+                theoretical knowledge and practical applications. You'll gain
+                hands-on experience with cutting-edge GIS and Remote Sensing
+                tools while developing critical thinking skills to address
+                real-world environmental challenges.
+              </p>
+
+              <p>
+                The MSGED program stands out for its strong emphasis on
+                field-based learning, industry collaborations, and research
+                opportunities. Our state-of-the-art geospatial laboratory and
+                experienced faculty will support you in becoming proficient
+                spatial analysts and environmental problem-solvers.
+              </p>
+
+              <p>
+                In today's data-driven world, geospatial skills are increasingly
+                valuable across sectors. Our graduates are successfully working
+                in government agencies, research institutions, international
+                organizations, and private companies, contributing to
+                sustainable development nationally and globally.
+              </p>
+
+              <p>
+                I encourage you to embrace this opportunity to transform into a
+                skilled professional ready to make meaningful contributions to
+                environmental management and sustainable development.
+              </p>
+            </div>
+
+            <div class="signature-block">
+              <h5 class="fw-bold mb-1" style="color: var(--dark-blue)">
+                Professor Ubaydur Rahaman Siddiki
+              </h5>
+              <p class="mb-3">Program Coordinator, MSGED</p>
+
+              <div class="d-flex flex-wrap justify-content-start">
+                <a href="#" class="university-badge">
+                  <i class="bi bi-envelope"></i> Email
+                </a>
+                <a href="#" class="university-badge">
+                  <i class="bi bi-linkedin"></i> LinkedIn
+                </a>
+                <a href="#" class="university-badge">
+                  <i class="bi bi-google"></i> Scholar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled menuLink">
+              <li>
+                <a href="/site/people?type=1" target="_blank"
+                  >Faculty List (Present)</a
+                >
+              </li>
+              <li>
+                <a href="/site/people?type=2" target="_blank"
+                  >Faculty List (Former)</a
+                >
+              </li>
+              <li>
+                <a href="/site/alumni-list?id=62" target="_blank"
+                  >Alumni Database</a
+                >
+              </li>
+              <li>
+                <a href="/site/content?id=127" target="_blank"
+                  >Departmental Journal</a
+                >
+              </li>
+              <li>
+                <a href="https://www.msged.edu.bd/admin"
+                  >Administrative Login</a
+                >
+              </li>
+            </ul>
+
+            <div class="social-links">
+              <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+              <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <h5>Location</h5>
+            <address>
+              <i class="fas fa-map-marker-alt"></i> 1st Floor (East Wing),<br />
+              Social Science Building,<br />
+              Savar, Dhaka 1342
+            </address>
+
+            <div class="contact-info">
+              <p><strong>Contact Us:</strong></p>
+              <p>
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:admission@msged.edu.bd"
+                  >admission@msged.edu.bd</a
+                >
+              </p>
+              <p>
+                <i class="fas fa-phone-alt"></i>
+                <a href="tel:+8801779742858">+88 01779742858</a>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-12 mb-4">
+            <h5>Map Location</h5>
+            <div class="map-container">
+              <!-- Embed your map here or use an image -->
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3648.347389061473!2d90.26131431543168!3d23.88787508921209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755e9a7a0e9e9a1%3A0x9e9a7a0e9e9a1!2sJahangirnagar%20University!5e0!3m2!1sen!2sbd!4v1620000000000!5m2!1sen!2sbd"
+                width="100%"
+                height="100%"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="row">
+          <div class="col-md-12 text-center copyright">
+            <p>
+              © 1970 - 2025 Department of Geography and Environment,
+              Jahangirnagar University. All Rights Reserved.
+            </p>
+            <p>
+              Designed & Developed by
+              <a href="http://www.infotech25.com" target="_blank"
+                >InfoTech Communications</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Make navbar stick to top when scrolling
+      window.addEventListener("scroll", function () {
+        const navbar = document.querySelector(".navbar");
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+
+      // Fix for mobile viewport height
+      function setViewportHeight() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
+      }
+
+      window.addEventListener("resize", setViewportHeight);
+      setViewportHeight();
+    </script>
+
+    <!-- =======notice script===  -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const viewButtons = document.querySelectorAll(".view-pdf");
+        const pdfViewer = document.getElementById("pdf-viewer");
+        const pdfPlaceholder = document.getElementById("pdf-placeholder");
+        const pdfTitle = document.getElementById("pdf-title");
+        const downloadLink = document.getElementById("download-pdf");
+
+        viewButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const pdfFile = this.getAttribute("data-pdf");
+            const noticeTitle = this.closest(
+              ".notice-item, .fixed-notice"
+            ).querySelector(".notice-title").textContent;
+
+            // Update PDF viewer
+            pdfViewer.src = pdfFile;
+            pdfViewer.style.display = "block";
+            pdfPlaceholder.style.display = "none";
+
+            // Update title
+            pdfTitle.textContent = noticeTitle;
+
+            // Update download link
+            downloadLink.href = pdfFile;
+            downloadLink.setAttribute("download", pdfFile);
+
+            // Highlight selected notice
+            viewButtons.forEach((btn) => btn.classList.remove("btn-primary"));
+            viewButtons.forEach((btn) =>
+              btn.classList.add("btn-outline-primary")
+            );
+            this.classList.remove("btn-outline-primary");
+            this.classList.add("btn-primary");
+          });
+        });
+
+        // Automatically click the first notice on page load
+        if (viewButtons.length > 0) {
+          viewButtons[0].click();
+        }
+      });
+    </script>
+
+    <!-- ============= apply =================== -->
+    <script>
+      // Countdown timer
+      function updateCountdown() {
+        const deadline = new Date("June 30, 2025 23:59:59").getTime();
+        const now = new Date().getTime();
+        const diff = deadline - now;
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+        document.getElementById("days").innerHTML = days
+          .toString()
+          .padStart(2, "0");
+        document.getElementById("hours").innerHTML = hours
+          .toString()
+          .padStart(2, "0");
+        document.getElementById("minutes").innerHTML = minutes
+          .toString()
+          .padStart(2, "0");
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 60000);
+
+      // Apply button animation
+      document
+        .querySelector(".apply-btn")
+        .addEventListener("mouseenter", function () {
+          this.style.transform = "translateY(-2px)";
+        });
+      document
+        .querySelector(".apply-btn")
+        .addEventListener("mouseleave", function () {
+          this.style.transform = "";
+        });
+    </script>
+  </body>
+</html>
